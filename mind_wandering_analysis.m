@@ -306,20 +306,6 @@ if ismember('part2', to_execute)
         EEG = iclabel(EEG);
         EEG.ICout_IClabel = find(EEG.etc.ic_classification.ICLabel.classifications(:, 1) < 0.5);
 
-        % This segment adds ICs that have to be removed that have been identified by 
-        % visual inspection. 
-        if id == 25
-            EEG.ICout_IClabel = [EEG.ICout_IClabel; 4];
-        elseif id == 37
-            EEG.ICout_IClabel = [EEG.ICout_IClabel; 6; 7];
-        elseif id == 42
-            EEG.ICout_IClabel = [EEG.ICout_IClabel; 7];
-        elseif id == 92
-            EEG.ICout_IClabel = [EEG.ICout_IClabel; 9];
-        elseif id == 100
-            EEG.ICout_IClabel = [EEG.ICout_IClabel; 6];
-        end
-
         % Remove components
         EEG = pop_subcomp(EEG, EEG.ICout_IClabel, 0);
         preprostats(s, 3) = length(EEG.ICout_IClabel);
@@ -371,6 +357,8 @@ if ismember('part2', to_execute)
     fprintf('\nRejected ICs: mean %i, stdev %i\n', mean(preprostats(:, 3)), std(preprostats(:, 3)));
 
 end % End part2
+
+% At this point, a visual inspection of the ICs was conducted. There were some remaining artifact ICs, which were removed (most of these ICs represented mostly ECG activity).
 
 % ==== PART3: HISTOGRAMS FOR THE TEMPORAL DISTRIBUTION OF TUT EVENTS & REJECTED IC POSITION =========
 
@@ -1230,7 +1218,7 @@ if ismember('part8', to_execute)
                         ];
         end
 
-        % Merge stuff
+        % Merge things...
         if s == 1
             M = T;
         else
@@ -1239,7 +1227,7 @@ if ismember('part8', to_execute)
 
     end % End subit
 
-    % Save std
+    % Save single trial data
     dlmwrite([PATH_CLUSTSTATS 'single_trial_data.csv'], M);
 
 end % End part8
