@@ -8,7 +8,8 @@
 % Code by Stefan Arnau, January 2020
 % Email: arnau@ifado.de
 % GitHub: github.com/fischmechanik/mind-wandering-EEG
-% OSF repository: (WILL BE PROVIDED WHEN ACCEPTED/PUBLISHED)
+% OSF repository: https://osf.io/srdpu/
+% OSF identifier: DOI 10.17605/OSF.IO/SRDPU
 %
 
 % Remove evil residuals
