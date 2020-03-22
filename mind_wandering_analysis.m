@@ -12,7 +12,7 @@
 % OSF identifier: DOI 10.17605/OSF.IO/SRDPU
 %
 
-% Remove evil residuals
+% Clear workspace
 clear all;
 
 % Path vars (insert paths here)
@@ -42,7 +42,6 @@ to_execute = {'part1'};
 
 % ======================= PART1: CODIG AND PREPROCESSING ===============================
 
-% Preprocessing
 if ismember('part1', to_execute)
 
     % Init EEGlab
@@ -52,6 +51,7 @@ if ismember('part1', to_execute)
 	% Iterating subject list
 	for s = 1 : length(subject_list)
 
+        % Load raw data
 		subject = subject_list{s};
         id = str2num(subject(end - 3 : end));
 	    EEG =  pop_loadbv(PATH_RAW_DATA, [subject '.vhdr'], [], []);
@@ -81,9 +81,6 @@ if ismember('part1', to_execute)
                             'urevent', {},...
                             'duration', {}...
                             );
-
-        % Thhi is a counter
-        ecount = 0;
 
 	    % Detect TUT (tsak unrelated thoughts) event related stim events
 	    trials = {[], [], []};
@@ -167,7 +164,8 @@ if ismember('part1', to_execute)
 	  		end
 	  	end
 
-		% Create stim events
+        % Create stim events
+        ecount = 0;
 	  	for t = 1 : 3
 	  		for e = 1 : length(trials{t})
         		ecount = ecount + 1;
@@ -195,7 +193,7 @@ if ismember('part1', to_execute)
             end 
     	end 
 
-    	% Create fixcross events
+    	% Create fixation cross events
 	  	for t = 1 : 3
 	  		for e = 1 : length(fc{t})
         		ecount = ecount + 1;
@@ -223,7 +221,7 @@ if ismember('part1', to_execute)
             end 
     	end 
 
-	    % Add already existing boundaries
+	    % Add existing boundaries
         for e = 1 : length(EEG.event)
             if strcmpi(EEG.event(e).type, 'boundary')
                 ecount = ecount + 1;
@@ -278,12 +276,10 @@ if ismember('part1', to_execute)
         EEG = pop_saveset(EEG, 'filename', [subject '_icset.set'], 'filepath', PATH_ICSET, 'check', 'on', 'savemode', 'twofiles');
 
     end % End subject loop
-
 end % End part1
 
 % ======================= PART2: IC-BASED DATA CLEANING ================================================
 
-% Stuff
 if ismember('part2', to_execute)
 
     % Init EEGlab
@@ -363,7 +359,6 @@ end % End part2
 
 % ==== PART3: HISTOGRAMS FOR THE TEMPORAL DISTRIBUTION OF TUT EVENTS & REJECTED IC POSITION =========
 
-% Stuff
 if ismember('part3', to_execute)
 
     % Init EEGlab
@@ -409,7 +404,6 @@ end % End part3
 
 % ======================= PART4: TIME FREQUENCY DECOMPOSITION ===================================================================================================
 
-% Preprocessing
 if ismember('part4', to_execute)
 
     % Init ft
@@ -649,12 +643,10 @@ if ismember('part4', to_execute)
         save([PATH_TFDECOMP 'trialinfo_' subject], 'trialinfo');
 
     end % End subject loop
-
 end % End part4
 
 % ============== PART5: DEMONSTRATE EFFECTS OF BASELINE CHOICE ==========================
 
-% Preprocessing
 if ismember('part5', to_execute)
 
     % Init EEGlab
@@ -774,7 +766,6 @@ end % End part5
 
 % ======================= PART6: CALCULATE CLUSTER PERMUTATION STATISTIC ===================================================================================================
 
-% Preprocessing
 if ismember('part6', to_execute)
 
     % Init ft
@@ -883,7 +874,6 @@ end % End part6
 
 % ======================= PART7: VISUALIZE CLUSTER ===================================================================================================
 
-% Preprocessing
 if ismember('part7', to_execute)
 
     % Get chanlocs
@@ -1155,7 +1145,6 @@ end % End part7
 
 % ======================= PART8: GATHERING SINGLE TRIAL INFO ===================================================================================================
 
-% Preprocessing
 if ismember('part8', to_execute)
 
     % Get chanlocs
@@ -1180,7 +1169,7 @@ if ismember('part8', to_execute)
         subject = subject_list{s};
         fprintf('\nLoad data subject %i/%i\n', s, numel(subject_list));
 
-        % Load stuff
+        % Load things
         POW = [];
         for ch = 1 : 32
             load([PATH_TFDECOMP 'powcube_' subject '_chan_' num2str(ch)]);
@@ -1235,7 +1224,6 @@ end % End part8
 
 % ======================= PART9: BEHAVIORAL ANALYSIS ==================================================================================
 
-% Preprocessing
 if ismember('part9', to_execute)
 
     % Load single trial data
